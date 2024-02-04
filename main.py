@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from database import get_db
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
-
+from model import YourTable
 app = FastAPI()
 origins = [
     "http://localhost",
@@ -18,5 +18,13 @@ app.add_middleware(
 )
 
 @app.get("/api/number/{number}") 
-async def main_route(number: int, db:Session = Depends(get_db)):     
-  return {"message": number}
+async def main_route(number: int, db:Session = Depends(get_db)):
+    entry = None
+    async with db.begin():
+        result = await db.execute(db.query(YourTable).filter(YourTable.number == number))
+        entry = result.scalar_one_or_none()
+
+    if entry is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    return {"data": entry.dict()}

@@ -2,7 +2,7 @@ from database import Base
 from sqlalchemy import Column, String, Integer
 
 
-class Post(Base):
+class YourTable(Base):
     __tablename__ = "YourTable"
     
     id = Column(Integer, primary_key=True, index=True)
