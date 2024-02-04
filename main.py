@@ -1,10 +1,22 @@
-from fastapi import FastAPI
-from database import engine
-import model
-model.Base.metadata.create_all(bind=engine)
+from fastapi import FastAPI, Depends
+from database import get_db
+from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+]
 
-@app.get("/") 
-async def main_route():     
-  return {"message": "Hey, It is me Goku"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/api/number/{number}") 
+async def main_route(number: int, db:Session = Depends(get_db)):     
+  return {"message": number}
