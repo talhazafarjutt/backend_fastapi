@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Depends
-from database import get_db
+from database import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.middleware.cors import CORSMiddleware
 from model import YourTable
+from sqlalchemy import delete, insert, select, update
+
 app = FastAPI()
 origins = [
     "http://localhost",
@@ -18,7 +20,7 @@ app.add_middleware(
 )
 
 @app.get("/api/number/{number}") 
-async def main_route(number: int, db:AsyncSession = Depends(get_db)):
+async def main_route(number: int, db:AsyncSession = Depends(get_session)):
     entry = None
     async with db.begin():
         result = await db.execute(db.query(YourTable).filter(YourTable.number == number))

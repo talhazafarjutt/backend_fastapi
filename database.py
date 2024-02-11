@@ -1,25 +1,17 @@
-from collections.abc import AsyncGenerator
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.ext.asyncio import async_sessionmaker
 
-engine = create_async_engine(
-    'postgresql+asyncpg://postgres:root@localhost:5432/backup',
-    future=True,
-    echo=True,
+engine = create_async_engine('postgresql+asyncpg://postgres:root@localhost:5432/backup')
+
+async_session: sessionmaker[Session] = sessionmaker(
+    engine, class_=AsyncSession, expire_on_commit=False,
 )
 
-# expire_on_commit=False will prevent attributes from being expired
-# after commit.
-AsyncSessionFactory = async_sessionmaker(
-    engine,
-    autoflush=False,
-    expire_on_commit=False,
-)
+Base = declarative_base()
 
 
-# Dependency
-async def get_db() -> AsyncGenerator:
-    async with AsyncSessionFactory() as session:
-        # logger.debug(f"ASYNC Pool: {engine.pool.status()}")
+async def get_session() -> AsyncSession:
+    """Dependency to create future sessions."""
+    async with async_session() as session:
         yield session
