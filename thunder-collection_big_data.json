@@ -1,0 +1,37 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "big_data",
+    "dateExported": "2024-02-12T18:30:26.376Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "39430812-ac05-4bef-a622-56ea837bc5f3",
+            "colId": "24e67c3b-bb29-4a8a-bad1-ba9723b2ee4c",
+            "containerId": "",
+            "name": "get by number",
+            "url": "https://843c-223-123-2-205.ngrok-free.app/api/number/3105038811",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-11T19:26:32.673Z",
+            "modified": "2024-02-12T18:23:14.459Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d3c90196-1213-4e12-9299-50281436f245",
+            "colId": "24e67c3b-bb29-4a8a-bad1-ba9723b2ee4c",
+            "containerId": "",
+            "name": "get by cnic",
+            "url": "https://843c-223-123-2-205.ngrok-free.app/api/cnic/5420169705147",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-11T19:27:17.153Z",
+            "modified": "2024-02-12T18:23:36.989Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

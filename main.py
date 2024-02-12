@@ -24,7 +24,6 @@ async def main_route(number: str, db:AsyncSession = Depends(get_session)):
         entry = None
         async with db.begin():
             result = await db.execute(select(YourTable).filter(YourTable.number == number))
-            print('check result: ',result)
             entry = result.scalar_one_or_none()
 
         if entry is None:
@@ -47,7 +46,6 @@ async def main_route(cnic: str, db:AsyncSession = Depends(get_session)):
         entry = None
         async with db.begin():
             result = await db.execute(select(YourTable).filter(YourTable.cnic == cnic))
-            print('check result: ',result)
             entry = result.scalar_one_or_none()
 
         if entry is None:
