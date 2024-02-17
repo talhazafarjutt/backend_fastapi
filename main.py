@@ -21,9 +21,7 @@ app.add_middleware(
 
 @app.get("/api/number/{number}",response_model=Response) 
 async def main_route(number: str, db:AsyncSession = Depends(get_session)):
-
     try:
-        
         entry = None
         async with db.begin():
             result = await db.execute(select(YourTable).filter(YourTable.number == number))
@@ -31,37 +29,29 @@ async def main_route(number: str, db:AsyncSession = Depends(get_session)):
 
         if entry is None:
             raise HTTPException(status_code=404, detail="Item not found")
-
         return {
             "number": entry.number,
             "name": entry.name,
             "cnic": entry.cnic,
             "address": entry.address
         }
-
     except Exception as error:
         raise HTTPException(status_code=404, detail=str(error))
 
-
 @app.get("/api/cnic/{cnic}",response_model=Response) 
 async def main_route(cnic: str, db:AsyncSession = Depends(get_session)):
-
     try:
-
         entry = None
         async with db.begin():
             result = await db.execute(select(YourTable).filter(YourTable.cnic == cnic))
             entry = result.scalar_one_or_none()
-
         if entry is None:
             raise HTTPException(status_code=404, detail="Item not found")
-
         return {
             "number": entry.number,
             "name": entry.name,
             "cnic": entry.cnic,
             "address": entry.address
         }
-
     except Exception as error:
         raise HTTPException(status_code=500, detail=str(error))
