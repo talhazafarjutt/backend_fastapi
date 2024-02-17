@@ -21,7 +21,9 @@ app.add_middleware(
 
 @app.get("/api/number/{number}",response_model=Response) 
 async def main_route(number: str, db:AsyncSession = Depends(get_session)):
+
     try:
+        
         entry = None
         async with db.begin():
             result = await db.execute(select(YourTable).filter(YourTable.number == number))
@@ -36,13 +38,16 @@ async def main_route(number: str, db:AsyncSession = Depends(get_session)):
             "cnic": entry.cnic,
             "address": entry.address
         }
+
     except Exception as error:
         raise HTTPException(status_code=404, detail=str(error))
 
 
 @app.get("/api/cnic/{cnic}",response_model=Response) 
 async def main_route(cnic: str, db:AsyncSession = Depends(get_session)):
+
     try:
+
         entry = None
         async with db.begin():
             result = await db.execute(select(YourTable).filter(YourTable.cnic == cnic))
@@ -57,5 +62,6 @@ async def main_route(cnic: str, db:AsyncSession = Depends(get_session)):
             "cnic": entry.cnic,
             "address": entry.address
         }
+
     except Exception as error:
         raise HTTPException(status_code=500, detail=str(error))
